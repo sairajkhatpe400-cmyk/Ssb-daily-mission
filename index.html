@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>SSB Daily Mission</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#131e30;--line:#29384d;--muted:#9aabc2;--text:#f4f7fb;--green:#35c58a;--amber:#f3bd55}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#111d31,#080e19 65%);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+main{width:min(760px,100%);margin:auto;padding:22px 16px 44px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.eyebrow{font-size:12px;letter-spacing:.16em;color:var(--green);font-weight:800}.top h1{font-size:clamp(25px,6vw,36px);margin:5px 0}.sub{color:var(--muted);font-size:14px}.shield{font-size:34px}
+.panel{background:rgba(19,30,48,.95);border:1px solid var(--line);border-radius:18px;padding:17px;margin-top:16px;box-shadow:0 12px 32px #0003}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.date{background:#0c1626;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit}
+.score{font-size:30px;font-weight:850}.track{height:11px;background:#263449;border-radius:20px;overflow:hidden;margin:12px 0 7px}.fill{height:100%;width:0;background:var(--green);transition:width .2s}
+.task{display:flex;align-items:center;gap:13px;padding:14px 0;border-bottom:1px solid var(--line)}.task:last-child{border:0}.task input{width:23px;height:23px;accent-color:var(--green);flex:none}.task strong{display:block}.task small{display:block;color:var(--muted);margin-top:3px;line-height:1.4}.status{margin-left:auto;font-size:11px;font-weight:800;color:var(--amber);white-space:nowrap}.done .status{color:var(--green)}
+textarea{width:100%;min-height:82px;resize:vertical;background:#0c1626;border:1px solid var(--line);border-radius:10px;padding:11px;color:var(--text);font:inherit;margin-top:8px}
+button{border:0;border-radius:11px;padding:12px 14px;font:700 14px system-ui;cursor:pointer;background:var(--green);color:#06150f}button.secondary{background:#25344a;color:var(--text)}button.danger{background:#422b32;color:#ffd8df}.buttons{display:flex;flex-wrap:wrap;gap:9px;margin-top:13px}
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.stat{background:#0c1626;border:1px solid var(--line);border-radius:12px;padding:12px}.stat b{display:block;font-size:22px}.stat span{font-size:11px;color:var(--muted)}
+.history{display:grid;gap:8px;margin-top:12px}.historyitem{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#0c1626;border:1px solid var(--line);padding:11px;border-radius:11px;font-size:13px}.muted{color:var(--muted)}.pill{font-size:11px;border-radius:99px;padding:4px 8px;background:#193b32;color:#8af0c5}.empty{color:var(--muted);font-size:13px;padding:10px 0}
+footer{color:var(--muted);font-size:12px;text-align:center;margin-top:18px;line-height:1.6}
+@media(max-width:420px){main{padding:17px 12px 35px}.panel{padding:14px}.statgrid{grid-template-columns:repeat(3,1fr)}.stat{padding:9px}.stat b{font-size:19px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div><div class="eyebrow">DISCIPLINE • CONSISTENCY • PROGRESS</div><h1>SSB Daily Mission</h1><div class="sub">Four tasks. One honest report. Every day.</div></div>
+    <div class="shield" aria-hidden="true">🛡️</div>
+  </header>
+
+  <section class="panel">
+    <div class="row"><label for="day"><b>Mission date</b></label><input class="date" id="day" type="date"></div>
+    <div class="row" style="margin-top:18px"><b>Today's progress</b><div class="score" id="score">0/4</div></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="sub" id="percent">0% complete</div>
+    <div id="tasks">
+      <label class="task"><input type="checkbox" data-task="newspaper"><span><strong>Daily newspaper</strong><small>Read national and international news; note important SSB issues.</small></span><span class="status">PENDING</span></label>
+      <label class="task"><input type="checkbox" data-task="ppdt"><span><strong>PPDT practice</strong><small>Practise one picture and write one clear, practical story.</small></span><span class="status">PENDING</span></label>
+      <label class="task"><input type="checkbox" data-task="wat"><span><strong>25 WAT words</strong><small>Write 25 meaningful, natural and action-oriented sentences.</small></span><span class="status">PENDING</span></label>
+      <label class="task"><input type="checkbox" data-task="ga"><span><strong>General awareness</strong><small>Study and revise one topic; note key facts.</small></span><span class="status">PENDING</span></label>
+    </div>
+    <label for="notes"><b>Daily remarks</b></label>
+    <textarea id="notes" placeholder="What did you learn? What needs improvement?"></textarea>
+    <div class="buttons">
+      <button id="copy">Copy daily report</button>
+      <button class="secondary" id="today">Go to today</button>
+      <button class="danger" id="clear">Clear this day</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <b>Performance overview</b>
+    <div class="statgrid">
+      <div class="stat"><b id="days">0</b><span>Days recorded</span></div>
+      <div class="stat"><b id="average">0%</b><span>Average completion</span></div>
+      <div class="stat"><b id="streak">0</b><span>Full-completion streak</span></div>
+    </div>
+    <div class="sub" style="margin-top:13px">Weekly completion (last 7 calendar days)</div>
+    <div class="row" style="margin-top:7px"><b id="weekCount">0/28 tasks</b><span class="sub" id="weekPercent">0%</span></div>
+    <div class="track"><div class="fill" id="weekFill"></div></div>
+  </section>
+
+  <section class="panel">
+    <div class="row"><b>Daily history</b><span class="sub">Saved on this device</span></div>
+    <div class="history" id="history"><div class="empty">Your daily reports will appear here once you check off tasks.</div></div>
+    <div class="buttons"><button class="secondary" id="export">Export history (CSV)</button></div>
+  </section>
+  <footer>Your entries are stored locally in this browser on this device. They are not automatically sent to ChatGPT or synced across devices. Export a backup regularly.</footer>
+</main>
+<script>
+const names={newspaper:"Newspaper",ppdt:"PPDT",wat:"25 WAT words",ga:"General awareness"};
+const $=id=>document.getElementById(id);
+const key="ssbDailyMission_v1";
+let records={};
+try{records=JSON.parse(localStorage.getItem(key)||"{}")}catch(e){records={}}
+const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const selected=()=> $("day").value;
+function save(){localStorage.setItem(key,JSON.stringify(records))}
+function getRecord(day){return records[day]||{tasks:{},notes:""}}
+function render(){
+ const day=selected(); if(!day)return;
+ const rec=getRecord(day);
+ document.querySelectorAll("[data-task]").forEach(el=>{el.checked=!!rec.tasks[el.dataset.task];const row=el.closest(".task");row.classList.toggle("done",el.checked);row.querySelector(".status").textContent=el.checked?"COMPLETED":"PENDING"});
+ $("notes").value=rec.notes||"";
+ const count=Object.values(rec.tasks).filter(Boolean).length;
+ $("score").textContent=count+"/4";$("percent").textContent=(count*25)+"% complete";$("fill").style.width=(count*25)+"%";
+ renderStats();
+}
+function renderStats(){
+ const dates=Object.keys(records).sort();$("days").textContent=dates.length;
+ const total=dates.reduce((s,d)=>s+Object.values(records[d].tasks||{}).filter(Boolean).length,0);
+ $("average").textContent=dates.length?Math.round(total/(dates.length*4)*100)+"%":"0%";
+ let streak=0,d=new Date();while(true){const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;const r=records[k];if(!r||Object.keys(names).some(t=>!r.tasks?.[t]))break;streak++;d.setDate(d.getDate()-1)}$("streak").textContent=streak;
+ let weekly=0;for(let i=0;i<7;i++){const x=new Date();x.setDate(x.getDate()-i);const k=`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`;weekly+=Object.values(records[k]?.tasks||{}).filter(Boolean).length}
+ $("weekCount").textContent=weekly+"/28 tasks";$("weekPercent").textContent=Math.round(weekly/28*100)+"%";$("weekFill").style.width=(weekly/28*100)+"%";
+ const list=dates.slice().reverse();$("history").innerHTML=list.length?list.map(k=>{const r=records[k],n=Object.values(r.tasks||{}).filter(Boolean).length;return `<div class="historyitem"><span><b>${k}</b><br><span class="muted">${n===4?"All tasks complete":n+" of 4 tasks complete"}</span></span><span class="pill">${n*25}%</span></div>`}).join(""):'<div class="empty">Your daily reports will appear here once you check off tasks.</div>';
+}
+function update(mutator){const d=selected();records[d]=getRecord(d);mutator(records[d]);save();render()}
+$("day").value=todayISO();$("day").addEventListener("change",render);
+document.querySelectorAll("[data-task]").forEach(el=>el.addEventListener("change",()=>update(r=>r.tasks[el.dataset.task]=el.checked)));
+$("notes").addEventListener("input",()=>{const d=selected();records[d]=getRecord(d);records[d].notes=$("notes").value;save();renderStats()});
+$("today").onclick=()=>{$("day").value=todayISO();render()};
+$("clear").onclick=()=>{if(confirm("Clear this date's checklist and remarks?")){delete records[selected()];save();render()}};
+function report(){const d=selected(),r=getRecord(d),n=Object.values(r.tasks).filter(Boolean).length;return `SSB DAILY REPORT\nDate: ${d}\n${Object.entries(names).map(([k,v])=>`${v}: ${r.tasks[k]?"COMPLETED":"PENDING"}`).join("\n")}\nScore: ${n}/4 (${n*25}%)\nRemarks: ${r.notes||"—"}`}
+$("copy").onclick=async()=>{try{await navigator.clipboard.writeText(report());$("copy").textContent="Copied!";setTimeout(()=>$("copy").textContent="Copy daily report",1500)}catch(e){prompt("Copy your report:",report())}};
+$("export").onclick=()=>{const rows=[["Date",...Object.values(names),"Score","Remarks"]];Object.keys(records).sort().forEach(d=>{const r=records[d],n=Object.values(r.tasks||{}).filter(Boolean).length;rows.push([d,...Object.keys(names).map(k=>r.tasks?.[k]?"Done":"Pending"),`${n}/4`,r.notes||""]) });const csv=rows.map(row=>row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="ssb-progress-history.csv";a.click();URL.revokeObjectURL(a.href)};
+render();
+</script>
+</body>
+</html>
